@@ -1,2 +1,7 @@
-// Reference: https://www.typescriptlang.org/play
-export declare const skip: (exitCode?: number) => void
+export interface SkipTaskOpts {
+  exitCode?: number
+  skipLocal?: boolean
+  taskName?: string
+}
+
+export declare const skipTask: (options: ?SkipTaskOpts) => void

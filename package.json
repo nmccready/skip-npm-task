@@ -1,25 +1,30 @@
 {
-  "name": "skip-local-postinstall",
-  "description": "Skip postinstall on local npm installs.",
-  "version": "2.0.2",
-  "repository": "github:tobua/skip-local-postinstall",
-  "license": "MIT",
-  "author": "Matthias Giger",
-  "padua": {
-    "source": true
+  "name": "@znemz/skip-npm-task",
+  "version": "0.0.1",
+  "description": "skip an npm whatever task whether its local or not",
+  "repository": {
+    "type": "git",
+    "url": "http://www.github.com/nmccready/skip-npm-task"
   },
-  "type": "module",
-  "main": "./index.js",
+  "license": "MIT",
+  "author": "Nicholas McCready",
   "sideEffects": false,
-  "bin": "./bin.js",
+  "exports": {
+    "default": "././index.js"
+  },
+  "main": "./index.js",
   "source": "./index.js",
   "types": "index.d.ts",
+  "bin": "./bin.js",
   "files": [
     "**/*.js",
     "index.d.ts"
   ],
-  "devDependencies": {
-    "padua": "^0.3.4"
+  "scripts": {
+    "prepare": "./bin.js -t prepare sort-package-json",
+    "test": "concurrently 'npm run test:run:local' 'npm run test:skip:local'",
+    "test:run:local": "./bin.js -e 22 -t test:run:local echo 'test local should run'",
+    "test:skip:local": "./bin.js -s -e 22 -t test:skip:local echo 'test local should run' || [ $? -ne 22 ] && exit 1 || exit 0"
   },
   "prettier": "padua/configuration/.prettierrc.json",
   "eslintConfig": {
@@ -32,7 +37,19 @@
       ]
     }
   },
+  "dependencies": {
+    "yargs": "~17.3.1"
+  },
+  "devDependencies": {
+    "concurrently": "~7.0.0",
+    "padua": "~0.3.4",
+    "sort-package-json": "~1.54.0"
+  },
   "engines": {
     "node": ">= 14"
+  },
+  "originalAuthor": "Matthias Giger",
+  "padua": {
+    "source": true
   }
 }

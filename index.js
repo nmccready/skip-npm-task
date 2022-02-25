@@ -1,8 +1,20 @@
-export const skip = (exitCode = 0) => {
+const isLocal = () => {
   const { INIT_CWD, PWD } = process.env
+  return !INIT_CWD || INIT_CWD === PWD || INIT_CWD.indexOf(PWD) === 0
+}
 
-  if (!INIT_CWD || INIT_CWD === PWD || INIT_CWD.indexOf(PWD) === 0) {
-    console.info(`Skipping 'postinstall' on local install`)
+const skipTask = ({ exitCode = 0, skipLocal = false, taskName = 'postinstall' } = {}) => {
+  if (isLocal() && skipLocal) {
+    console.info(`Skipping '${taskName}' on local install`)
     process.exit(exitCode)
   }
+  if (!isLocal() && !skipLocal) {
+    console.info(`Skipping '${taskName}' on non-local install`)
+    process.exit(exitCode)
+  }
+}
+
+module.exports = {
+  isLocal,
+  skipTask,
 }

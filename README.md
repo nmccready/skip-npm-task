@@ -1,33 +1,17 @@
-# skip-local-postinstall
+# skip-npm-task
 
-Skips (successfully exits current process) when postinstall is called locally instead of being called when the package has been published to npm.
+Skips (successfully exits current process) when whatever task is called if the task is **not** local by default.
+
+If you want it to skip the task if it is local then pass `-s` or `--skip-local`.
+
+If the task is allowed and all commands following are executed serially in order.
 
 ```js
 // package.json
+// how prepare should work
 "scripts": {
-  "postinstall": "node ./installation.js"
+ "prepare": "skip-npm-task -t prepare sort-package-json 'echo hi' 'echo do something else'",
 }
-```
-
-```js
-// installation.js
-import { skip } from 'skip-local-postinstall'
-
-skip()
-
-// This code will only be executed when installed through npm.
-console.log('Installing from npm.')
 ```
 
 Requires [`process.env.INIT_CWD`](https://github.com/npm/cli/issues/2033) variable available in all stable npm releases. Credits to Már Örlygsson for suggesting this implementaiton on [Stackoverflow](https://stackoverflow.com/a/53239387/3185545s).
-
-## Compiled Postinstall File
-
-In cases where you want to run a postinstall script for compiled files (i.e. source in TypeScript) the file will not be there when installing the package locally. To address that this plugin also includes a bin script. It's arguments will be passed directly to the `node` command and can include additional arguments apart from the file to run.
-
-```js
-// package.json
-"scripts": {
-  "postinstall": "skip-local-postinstall ./dist/installation.js"
-}
-```
