@@ -23,8 +23,8 @@
   "scripts": {
     "prepare": "./bin.js -t prepare sort-package-json",
     "test": "concurrently 'npm run test:run:local' 'npm run test:skip:local'",
-    "test:run:local": "./bin.js -e 22 -t test:run:local echo 'test local should run'",
-    "test:skip:local": "./bin.js -s -e 22 -t test:skip:local echo 'test local should run' || [ $? -ne 22 ] && exit 1 || exit 0"
+    "test:run:local": "./bin.js -e 22 -t test:run:local \"echo 'test local should run'\"",
+    "test:skip:local": "./bin.js -s -e 22 -t test:skip:local \"echo 'test local should skip'\" || [ $? -ne 22 ] && exit 1 || exit 0"
   },
   "prettier": "padua/configuration/.prettierrc.json",
   "eslintConfig": {
