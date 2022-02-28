@@ -1,6 +1,6 @@
 {
   "name": "@znemz/skip-npm-task",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "skip an npm whatever task whether its local or not",
   "repository": {
     "type": "git",
